@@ -895,10 +895,7 @@ def _real_and_imag_output(fn):
             return tuple(fn_to_apply(o) if o.is_complex() else o for o in outs)
         return wrapped_fn
 
-    # TODO(@anjali411): remove this workaround once neg bit is added.
-    def torch_imag(x):
-        return x.resolve_conj().imag
-    return apply_to_c_outs(fn, torch.real), apply_to_c_outs(fn, torch_imag)
+    return apply_to_c_outs(fn, torch.real), apply_to_c_outs(fn, torch.imag)
 
 def _real_and_imag_input(fn, complex_inp_indices):
     # returns new functions that take real inputs instead of complex inputs and compute fn(x + 0 * 1j)
